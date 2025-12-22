@@ -32,6 +32,7 @@
 </svelte:head>
 
 <main class="flex flex-col min-h-screen gap-8">
+  <h1 class="sr-only">Humidze - Humidity Tracking Application</h1>
   <header class="flex justify-between w-full h-16">
     <section class="flex-1">
       {#if loading}

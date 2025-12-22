@@ -53,7 +53,7 @@
 }
 
 body {
-  background: var(--background-image-weather-screen);
+  background: var(--background-image-weather-gradient);
   color: var(--color-weather-text-primary);
   font-family: var(--font-family-weather);
 }

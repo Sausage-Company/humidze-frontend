@@ -61,15 +61,19 @@
         {#if loading}
           <div class="text-white text-lg">Getting your location...</div>
         {/if}
-        <h2 class="text-3xl font-bold text-white">{locationName}</h2>
-        <span>{currentDateTime}</span>
+
+        {#if error}
+          <div class="text-red-500 text-center max-w-md">
+            <p>{error}</p>
+          </div>
+        {/if}
+
+        {#if locationName}
+          <h2 class="text-3xl font-bold text-white">{locationName}</h2>
+        {/if}
+
+        <span class="uppercase">{currentDateTime}</span>
       </section>
     </section>
-   
-    {#if error}
-      <div class="text-red-500 text-center max-w-md">
-        <p>{error}</p>
-      </div>
-    {/if}
   </header>
 </main>

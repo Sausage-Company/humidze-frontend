@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Main backgrounds */
+  --color-weather-dark: #0f2027;
+  --color-weather-mid: #203a43;
+  --color-weather-deep: #2c5364;
+  --color-weather-teal: #1a535c;
+  --color-weather-teal-dark: #0d3b42;
+
+  /* Accent colors */
+  --color-weather-orange: #ffa726;
+  --color-weather-red: #ff6b6b;
+
+  /* Glass/overlay colors (use with opacity) */
+  --color-glass-white: rgba(255, 255, 255, 0.08);
+  --color-glass-border: rgba(255, 255, 255, 0.12);
+
+  /* Background images/gradients */
+  --background-image-weather-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  --background-image-weather-screen: linear-gradient(180deg, #1a535c 0%, #0d3b42 100%);
+  --background-image-weather-glow: radial-gradient(circle, rgba(255, 167, 38, 0.25) 0%, transparent 70%);
+  --background-image-weather-button: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+
+  /* Box shadows */
+  --shadow-weather-glow: 0 4px 30px rgba(255, 167, 38, 0.5), 0 0 80px rgba(255, 167, 38, 0.3);
+  --shadow-weather-card: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+  /* Backdrop blur */
+  --backdrop-blur-glass: 20px;
+}
+
+body {
+  background: var(--background-image-weather-screen);
+  color: #FFFFFF;
+}

@@ -4,6 +4,8 @@
 	import { getLocationName } from '$lib/api/location';
 	import LocationIcon from '$lib/components/icons/LocationIcon.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import MenuIcon from '$lib/components/icons/MenuIcon.svelte';
+	import MobileMenu from '$lib/components/MobileMenu.svelte';
 
 	let latitude: number | null = null;
 	let longitude: number | null = null;
@@ -55,7 +57,7 @@
 
 <main class="flex flex-col min-h-screen gap-8">
   <h1 class="sr-only">Humidze - Humidity Tracking Application</h1>
-  <header class="flex items-center justify-between w-full h-20 px-4">
+  <header class="flex flex-col md:items-center justify-between w-full h-20 px-4 md:flex-row">
     <section class="flex-1 flex flex-row gap-4 items-center">
       <LocationIcon class="fill-red-400" size={24} />
       <section>
@@ -70,13 +72,19 @@
         {/if}
 
         {#if locationName}
-          <h2 class="text-3xl font-bold text-white">{locationName}</h2>
+          <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">{locationName}</h2>
         {/if}
 
-        <span class="text-weather-text-muted uppercase">{currentDateTime}</span>
+        <span class="text-sm sm:text-md md:text-base text-weather-text-muted uppercase">{currentDateTime}</span>
       </section>
+      <MobileMenu>
+        <section class="flex flex-col gap-4">
+          <Button variant="ghost" disabled>Change Location</Button>
+          <Button variant="ghost" disabled>Settings</Button>
+        </section>
+      </MobileMenu>
     </section>
-    <section class="flex flex-row gap-4">
+    <section class="hidden md:flex flex-row gap-4">
       <Button variant="ghost" disabled>Change Location</Button>
       <Button variant="ghost" disabled>Settings</Button>
     </section>

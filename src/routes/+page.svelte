@@ -29,6 +29,7 @@
 
 <svelte:head>
 	<title>Humidze - App</title>
+	<meta name="description" content="Get accurate humidity information for your location. Humidze automatically detects your location and provides real-time humidity updates." />
 </svelte:head>
 
 <main class="flex flex-col min-h-screen gap-8">

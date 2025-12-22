@@ -3,6 +3,7 @@
 	import { getLocation } from '$lib/browser/geolocation';
 	import { getLocationName } from '$lib/api/location';
 	import LocationIcon from '$lib/components/icons/LocationIcon.svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	let latitude: number | null = null;
 	let longitude: number | null = null;
@@ -74,6 +75,10 @@
 
         <span class="text-weather-text-muted uppercase">{currentDateTime}</span>
       </section>
+    </section>
+    <section class="flex flex-row gap-4">
+      <Button variant="ghost" disabled>Change Location</Button>
+      <Button variant="ghost" disabled>Settings</Button>
     </section>
   </header>
 </main>

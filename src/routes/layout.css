@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
 @theme {
   /* Main backgrounds */
@@ -12,25 +13,47 @@
   --color-weather-orange: #ffa726;
   --color-weather-red: #ff6b6b;
 
-  /* Glass/overlay colors (use with opacity) */
-  --color-glass-white: rgba(255, 255, 255, 0.08);
+  /* Typography colors */
+  --color-weather-text-primary: #ffffff;
+  --color-weather-text-secondary: rgba(255, 255, 255, 0.9);
+  --color-weather-text-muted: rgba(255, 255, 255, 0.6);
+  --color-weather-text-subtle: rgba(255, 255, 255, 0.5);
+  --color-weather-text-disabled: rgba(255, 255, 255, 0.3);
+
+  /* Glass/overlay colors */
+  --color-glass: rgba(255, 255, 255, 0.08);
+  --color-glass-light: rgba(255, 255, 255, 0.12);
+  --color-glass-lighter: rgba(255, 255, 255, 0.15);
+  --color-glass-dark: rgba(255, 255, 255, 0.05);
   --color-glass-border: rgba(255, 255, 255, 0.12);
+  --color-glass-border-light: rgba(255, 255, 255, 0.2);
+  --color-glass-shine: rgba(255, 255, 255, 0.3);
 
   /* Background images/gradients */
   --background-image-weather-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
   --background-image-weather-screen: linear-gradient(180deg, #1a535c 0%, #0d3b42 100%);
+  --background-image-weather-screen-mesh: radial-gradient(circle at 20% 30%, rgba(255, 107, 107, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 167, 38, 0.15) 0%, transparent 50%), linear-gradient(180deg, #1a535c 0%, #0d3b42 100%);
   --background-image-weather-glow: radial-gradient(circle, rgba(255, 167, 38, 0.25) 0%, transparent 70%);
   --background-image-weather-button: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+  --background-image-weather-card-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
 
   /* Box shadows */
   --shadow-weather-glow: 0 4px 30px rgba(255, 167, 38, 0.5), 0 0 80px rgba(255, 167, 38, 0.3);
+  --shadow-weather-glow-sm: 0 2px 10px rgba(255, 167, 38, 0.4);
   --shadow-weather-card: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-weather-card-lg: 0 12px 32px rgba(255, 107, 107, 0.5);
+  --shadow-weather-btn: 0 8px 24px rgba(255, 107, 107, 0.4);
 
   /* Backdrop blur */
   --backdrop-blur-glass: 20px;
+
+  /* Font families */
+  --font-family-weather: 'Outfit', sans-serif;
+  --font-family-weather-mono: 'Space Mono', monospace;
 }
 
 body {
   background: var(--background-image-weather-screen);
-  color: #FFFFFF;
+  color: var(--color-weather-text-primary);
+  font-family: var(--font-family-weather);
 }

@@ -72,7 +72,7 @@
           <h2 class="text-3xl font-bold text-white">{locationName}</h2>
         {/if}
 
-        <span class="uppercase">{currentDateTime}</span>
+        <span class="text-weather-text-muted uppercase">{currentDateTime}</span>
       </section>
     </section>
   </header>

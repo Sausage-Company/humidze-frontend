@@ -27,6 +27,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Humidze - App</title>
+</svelte:head>
+
 <main class="flex flex-col min-h-screen gap-8">
   <header class="flex justify-between w-full h-16">
     <section class="flex-1">

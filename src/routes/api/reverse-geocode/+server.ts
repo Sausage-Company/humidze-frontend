@@ -29,7 +29,12 @@ export const GET: RequestHandler = async ({ url }) => {
 		}
 
 		const response = await fetch(
-			`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+			`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
+			{
+				headers: {
+					'User-Agent': 'HumidzeFrontend/1.0'
+				}
+			}
 		);
 
 		if (!response.ok) {

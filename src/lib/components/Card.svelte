@@ -29,7 +29,7 @@
 		lg: 'p-8 gap-6'
 	};
 
-	const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+	const classes = $derived(`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`);
 </script>
 
 <div class={classes}>

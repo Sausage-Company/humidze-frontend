@@ -21,7 +21,7 @@
 		full: 'rounded-full'
 	};
 
-	const classes = `${width} ${height} ${roundedClasses[rounded]} bg-glass-light animate-pulse ${className}`;
+	const classes = $derived(`${width} ${height} ${roundedClasses[rounded]} bg-glass-light animate-pulse ${className}`);
 </script>
 
 <div class={classes}></div>

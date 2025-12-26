@@ -34,7 +34,7 @@
 		lg: 'px-8 py-4 text-lg'
 	};
 
-	const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+	const classes = $derived(`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`);
 </script>
 
 <button {disabled} {onclick} class={classes}>

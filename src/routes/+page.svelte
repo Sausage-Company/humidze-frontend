@@ -28,6 +28,22 @@
 		currentDateTime = `${dayOfWeek}, ${month} ${day} • ${hours}:${minutes}`;
 	}
 
+	function getTemperatureShadow(temp: number | null): string {
+		if (temp === null) return '';
+
+		if (temp <= 0) {
+			return 'drop-shadow-[0_0_20px_rgba(255,255,255,0.8)] drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]';
+		} else if (temp <= 10) {
+			return 'drop-shadow-[0_0_20px_rgba(59,130,246,0.8)] drop-shadow-[0_0_40px_rgba(59,130,246,0.4)]';
+		} else if (temp <= 25) {
+			return '';
+		} else if (temp <= 35) {
+			return 'drop-shadow-[0_0_20px_rgba(234,179,8,0.8)] drop-shadow-[0_0_40px_rgba(234,179,8,0.4)]';
+		} else {
+			return 'drop-shadow-[0_0_20px_rgba(249,115,22,0.8)] drop-shadow-[0_0_40px_rgba(249,115,22,0.4)]';
+		}
+	}
+
 	onMount(() => {
 		updateDateTime();
 		const interval = setInterval(updateDateTime, 60000);
@@ -64,7 +80,7 @@
 	<meta name="description" content="Get accurate humidity information for your location. Humidze automatically detects your location and provides real-time humidity updates." />
 </svelte:head>
 
-<main class="flex flex-col min-h-screen gap-8">
+<main class="flex flex-col min-h-dvh gap-8">
   <h1 class="sr-only">Humidze - Humidity Tracking Application</h1>
   <header class="flex flex-col md:items-center justify-between w-full h-20 px-4 md:flex-row">
     <section class="flex-1 flex flex-row gap-4 items-center">
@@ -103,7 +119,7 @@
     <section class="flex flex-col items-center justify-center gap-8 px-4">
       <div class="flex flex-col md:flex-row gap-8 md:gap-16">
         <div class="flex flex-col items-center">
-          <span class="text-6xl md:text-8xl font-bold text-white">{temperature.toFixed(1)}°</span>
+          <span class="text-6xl md:text-8xl font-bold text-white transition-all duration-300 {getTemperatureShadow(temperature)}">{temperature.toFixed(1)}°</span>
           <span class="text-xl md:text-2xl text-weather-text-muted">Temperature</span>
         </div>
         <div class="flex flex-col items-center">

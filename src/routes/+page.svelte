@@ -9,6 +9,7 @@
 	import MobileMenu from '$lib/components/MobileMenu.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import Skeleton from '$lib/components/Skeleton.svelte';
+	import WarningIcon from '$lib/components/icons/WarningIcon.svelte';
 
 	let latitude = $state<number | null>(null);
 	let longitude = $state<number | null>(null);
@@ -84,13 +85,19 @@
 			}
 		} catch (err) {
 			console.error('Geolocation error:', err);
-			const message = (err as { message: string }).message || '';
+			const geolocationError = err as { code?: number; message: string };
 
-			if (message.includes('User denied')) {
+			if (geolocationError.code === 1) {
 				error = 'Location access denied. Please enable location permissions to use this app.';
 				errorType = 'permission';
+			} else if (geolocationError.code === 2) {
+				error = 'Unable to determine your location. Please check your device settings.';
+				errorType = 'location';
+			} else if (geolocationError.code === 3) {
+				error = 'Location request timed out. Please try again.';
+				errorType = 'location';
 			} else {
-				error = 'Unable to access your location. Please enable location services and try again.';
+				error = geolocationError.message || 'Unable to access your location. Please enable location services and try again.';
 				errorType = 'location';
 			}
 		} finally {
@@ -156,9 +163,7 @@
       {:else if errorType === 'weather' || errorType === 'permission' || (error && !temperature && !humidity)}
         <Card variant="glass" size="lg" class="w-[280px] h-[240px] md:w-[320px] md:h-[240px]">
           <div class="flex flex-col items-center justify-center gap-4 text-center px-4">
-            <svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
+            <WarningIcon size={48} />
             <div class="flex flex-col gap-2">
               <h3 class="text-base md:text-lg font-bold text-red-400">
                 {errorType === 'permission' ? 'Permission Denied' : errorType === 'weather' ? 'Data Unavailable' : 'Error'}

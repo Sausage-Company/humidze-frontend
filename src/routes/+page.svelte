@@ -26,15 +26,15 @@
 		if (temp === null) return '';
 
 		if (temp <= 0) {
-			return 'drop-shadow-[0_0_20px_rgba(255,255,255,0.8)] drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]';
+			return '[filter:drop-shadow(0_0_20px_rgba(255,255,255,0.8))_drop-shadow(0_0_40px_rgba(255,255,255,0.4))]';
 		} else if (temp <= 10) {
-			return 'drop-shadow-[0_0_20px_rgba(59,130,246,0.8)] drop-shadow-[0_0_40px_rgba(59,130,246,0.4)]';
+			return '[filter:drop-shadow(0_0_20px_rgba(59,130,246,0.8))_drop-shadow(0_0_40px_rgba(59,130,246,0.4))]';
 		} else if (temp <= 25) {
 			return '';
 		} else if (temp <= 35) {
-			return 'drop-shadow-[0_0_20px_rgba(234,179,8,0.8)] drop-shadow-[0_0_40px_rgba(234,179,8,0.4)]';
+			return '[filter:drop-shadow(0_0_20px_rgba(234,179,8,0.8))_drop-shadow(0_0_40px_rgba(234,179,8,0.4))]';
 		} else {
-			return 'drop-shadow-[0_0_20px_rgba(249,115,22,0.8)] drop-shadow-[0_0_40px_rgba(249,115,22,0.4)]';
+			return '[filter:drop-shadow(0_0_20px_rgba(249,115,22,0.8))_drop-shadow(0_0_40px_rgba(249,115,22,0.4))]';
 		}
 	}
 

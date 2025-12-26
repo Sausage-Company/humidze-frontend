@@ -2,17 +2,20 @@
 	import { onMount } from 'svelte';
 	import { getLocation } from '$lib/browser/geolocation';
 	import { getLocationName } from '$lib/api/location';
+	import { getWeatherData } from '$lib/api/weather';
 	import LocationIcon from '$lib/components/icons/LocationIcon.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import MenuIcon from '$lib/components/icons/MenuIcon.svelte';
 	import MobileMenu from '$lib/components/MobileMenu.svelte';
 
-	let latitude: number | null = null;
-	let longitude: number | null = null;
-	let locationName: string = '';
-	let loading = true;
-	let error: string | null = null;
-	let currentDateTime: string = '';
+	let latitude = $state<number | null>(null);
+	let longitude = $state<number | null>(null);
+	let locationName = $state('');
+	let temperature = $state<number | null>(null);
+	let humidity = $state<number | null>(null);
+	let loading = $state(true);
+	let error = $state<string | null>(null);
+	let currentDateTime = $state('');
 
 	function updateDateTime() {
 		const now = new Date();
@@ -36,8 +39,14 @@
 					latitude = location.latitude;
 					longitude = location.longitude;
 
-					const geocoded = await getLocationName(latitude, longitude);
+					const [geocoded, weather] = await Promise.all([
+						getLocationName(latitude, longitude),
+						getWeatherData(latitude, longitude)
+					]);
+
 					locationName = `${geocoded.city}, ${geocoded.country}`;
+					temperature = weather.temperature;
+					humidity = weather.humidity;
 				}
 			} catch (err) {
 				error = (err as { message: string }).message || 'Failed to get location';
@@ -89,4 +98,19 @@
       <Button variant="ghost" disabled>Settings</Button>
     </section>
   </header>
+
+  {#if temperature !== null && humidity !== null}
+    <section class="flex flex-col items-center justify-center gap-8 px-4">
+      <div class="flex flex-col md:flex-row gap-8 md:gap-16">
+        <div class="flex flex-col items-center">
+          <span class="text-6xl md:text-8xl font-bold text-white">{temperature.toFixed(1)}°</span>
+          <span class="text-xl md:text-2xl text-weather-text-muted">Temperature</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="text-6xl md:text-8xl font-bold text-blue-400">{humidity.toFixed(0)}%</span>
+          <span class="text-xl md:text-2xl text-weather-text-muted">Humidity</span>
+        </div>
+      </div>
+    </section>
+  {/if}
 </main>

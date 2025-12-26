@@ -8,6 +8,7 @@
 	import MenuIcon from '$lib/components/icons/MenuIcon.svelte';
 	import MobileMenu from '$lib/components/MobileMenu.svelte';
 	import Card from '$lib/components/Card.svelte';
+	import Skeleton from '$lib/components/Skeleton.svelte';
 
 	let latitude = $state<number | null>(null);
 	let longitude = $state<number | null>(null);
@@ -116,18 +117,27 @@
     </section>
   </header>
 
-  {#if temperature !== null && humidity !== null}
-    <section class="flex flex-col items-center justify-center gap-8 px-4">
-      <div class="flex flex-col md:flex-row gap-8 md:gap-16">
-        <Card variant="glass" size="lg">
+  <section class="flex flex-col items-center justify-center gap-8 px-4">
+    <div class="flex flex-col md:flex-row gap-8 md:gap-16">
+      {#if loading}
+        <Card variant="glass" size="lg" class="w-[280px] h-[200px] md:w-[320px] md:h-[240px]">
+          <Skeleton width="w-48 md:w-56" height="h-20 md:h-24" rounded="lg" />
+          <Skeleton width="w-32 md:w-40" height="h-6 md:h-7" rounded="md" />
+        </Card>
+        <Card variant="glass" size="lg" class="w-[280px] h-[200px] md:w-[320px] md:h-[240px]">
+          <Skeleton width="w-48 md:w-56" height="h-20 md:h-24" rounded="lg" />
+          <Skeleton width="w-32 md:w-40" height="h-6 md:h-7" rounded="md" />
+        </Card>
+      {:else if temperature !== null && humidity !== null}
+        <Card variant="glass" size="lg" class="w-[280px] h-[200px] md:w-[320px] md:h-[240px]">
           <span class="text-6xl md:text-8xl font-bold text-white transition-all duration-300 {getTemperatureShadow(temperature)}">{temperature.toFixed(1)}°</span>
           <span class="text-xl md:text-2xl text-weather-text-muted">Temperature</span>
         </Card>
-        <Card variant="glass" size="lg">
+        <Card variant="glass" size="lg" class="w-[280px] h-[200px] md:w-[320px] md:h-[240px]">
           <span class="text-6xl md:text-8xl font-bold text-blue-400">{humidity.toFixed(0)}%</span>
           <span class="text-xl md:text-2xl text-weather-text-muted">Humidity</span>
         </Card>
-      </div>
-    </section>
-  {/if}
+      {/if}
+    </div>
+  </section>
 </main>

@@ -17,6 +17,7 @@
 	let humidity = $state<number | null>(null);
 	let loading = $state(true);
 	let error = $state<string | null>(null);
+	let errorType = $state<'location' | 'weather' | 'permission' | null>(null);
 	let currentDateTime = $state('');
 
 	function updateDateTime() {
@@ -46,33 +47,61 @@
 		}
 	}
 
+	async function fetchData() {
+		loading = true;
+		error = null;
+		errorType = null;
+
+		try {
+			const location = await getLocation();
+			if (!location) {
+				error = 'Unable to access your location. Please enable location permissions in your browser settings.';
+				errorType = 'permission';
+				return;
+			}
+
+			latitude = location.latitude;
+			longitude = location.longitude;
+
+			try {
+				const geocoded = await getLocationName(latitude, longitude);
+				locationName = `${geocoded.city}, ${geocoded.country}`;
+			} catch (err) {
+				console.error('Location name error:', err);
+				error = 'Unable to determine your location name. Continuing with coordinates...';
+				errorType = 'location';
+				locationName = `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`;
+			}
+
+			try {
+				const weather = await getWeatherData(latitude, longitude);
+				temperature = weather.temperature;
+				humidity = weather.humidity;
+			} catch (err) {
+				console.error('Weather data error:', err);
+				error = 'Unable to fetch weather data. Please check your internet connection and try again.';
+				errorType = 'weather';
+			}
+		} catch (err) {
+			console.error('Geolocation error:', err);
+			const message = (err as { message: string }).message || '';
+
+			if (message.includes('User denied')) {
+				error = 'Location access denied. Please enable location permissions to use this app.';
+				errorType = 'permission';
+			} else {
+				error = 'Unable to access your location. Please enable location services and try again.';
+				errorType = 'location';
+			}
+		} finally {
+			loading = false;
+		}
+	}
+
 	onMount(() => {
 		updateDateTime();
 		const interval = setInterval(updateDateTime, 60000);
-
-		(async () => {
-			try {
-				const location = await getLocation();
-				if (location) {
-					latitude = location.latitude;
-					longitude = location.longitude;
-
-					const [geocoded, weather] = await Promise.all([
-						getLocationName(latitude, longitude),
-						getWeatherData(latitude, longitude)
-					]);
-
-					locationName = `${geocoded.city}, ${geocoded.country}`;
-					temperature = weather.temperature;
-					humidity = weather.humidity;
-				}
-			} catch (err) {
-				error = (err as { message: string }).message || 'Failed to get location';
-			} finally {
-				loading = false;
-			}
-		})();
-
+		fetchData();
 		return () => clearInterval(interval);
 	});
 </script>
@@ -90,16 +119,12 @@
       <section>
         {#if loading}
           <div class="text-white text-lg">Getting your location...</div>
-        {/if}
-
-        {#if error}
-          <div class="text-red-500 text-center max-w-md">
-            <p>{error}</p>
-          </div>
-        {/if}
-
-        {#if locationName}
+        {:else if locationName}
           <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">{locationName}</h2>
+        {:else if error && errorType === 'permission'}
+          <div class="text-red-400 text-base md:text-lg">Location Required</div>
+        {:else}
+          <div class="text-weather-text-muted text-base md:text-lg">Location Unknown</div>
         {/if}
 
         <span class="text-sm sm:text-md md:text-base text-weather-text-muted uppercase">{currentDateTime}</span>
@@ -127,6 +152,23 @@
         <Card variant="glass" size="lg" class="w-[280px] h-[200px] md:w-[320px] md:h-[240px]">
           <Skeleton width="w-48 md:w-56" height="h-20 md:h-24" rounded="lg" />
           <Skeleton width="w-32 md:w-40" height="h-6 md:h-7" rounded="md" />
+        </Card>
+      {:else if errorType === 'weather' || errorType === 'permission' || (error && !temperature && !humidity)}
+        <Card variant="glass" size="lg" class="w-[280px] h-[200px] md:w-[320px] md:h-[240px]">
+          <div class="flex flex-col items-center justify-center gap-4 text-center px-4">
+            <svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div class="flex flex-col gap-2">
+              <h3 class="text-base md:text-lg font-bold text-red-400">
+                {errorType === 'permission' ? 'Permission Denied' : errorType === 'weather' ? 'Data Unavailable' : 'Error'}
+              </h3>
+              <p class="text-xs md:text-sm text-weather-text-muted">{error}</p>
+            </div>
+            <Button variant="primary" size="sm" onclick={fetchData}>
+              Try Again
+            </Button>
+          </div>
         </Card>
       {:else if temperature !== null && humidity !== null}
         <Card variant="glass" size="lg" class="w-[280px] h-[200px] md:w-[320px] md:h-[240px]">

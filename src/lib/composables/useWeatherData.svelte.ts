@@ -82,6 +82,19 @@ export function useWeatherData() {
 		}
 	}
 
+	async function fetch() {
+		await fetchData();
+	}
+
+	async function refetch() {
+		latitude = null;
+		longitude = null;
+		locationName = '';
+		temperature = null;
+		humidity = null;
+		await fetchData();
+	}
+
 	return {
 		get latitude() { return latitude; },
 		get longitude() { return longitude; },
@@ -91,6 +104,7 @@ export function useWeatherData() {
 		get loading() { return loading; },
 		get error() { return error; },
 		get errorType() { return errorType; },
-		refetch: fetchData
+		fetch,
+		refetch
 	};
 }

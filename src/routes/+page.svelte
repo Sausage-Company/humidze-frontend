@@ -41,7 +41,7 @@
 	onMount(() => {
 		updateDateTime();
 		const interval = setInterval(updateDateTime, 60000);
-		weatherData.refetch();
+		weatherData.fetch();
 		return () => clearInterval(interval);
 	});
 </script>

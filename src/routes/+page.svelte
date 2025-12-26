@@ -7,6 +7,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import MenuIcon from '$lib/components/icons/MenuIcon.svelte';
 	import MobileMenu from '$lib/components/MobileMenu.svelte';
+	import Card from '$lib/components/Card.svelte';
 
 	let latitude = $state<number | null>(null);
 	let longitude = $state<number | null>(null);
@@ -118,14 +119,14 @@
   {#if temperature !== null && humidity !== null}
     <section class="flex flex-col items-center justify-center gap-8 px-4">
       <div class="flex flex-col md:flex-row gap-8 md:gap-16">
-        <div class="flex flex-col items-center">
+        <Card variant="glass" size="lg">
           <span class="text-6xl md:text-8xl font-bold text-white transition-all duration-300 {getTemperatureShadow(temperature)}">{temperature.toFixed(1)}°</span>
           <span class="text-xl md:text-2xl text-weather-text-muted">Temperature</span>
-        </div>
-        <div class="flex flex-col items-center">
+        </Card>
+        <Card variant="glass" size="lg">
           <span class="text-6xl md:text-8xl font-bold text-blue-400">{humidity.toFixed(0)}%</span>
           <span class="text-xl md:text-2xl text-weather-text-muted">Humidity</span>
-        </div>
+        </Card>
       </div>
     </section>
   {/if}
